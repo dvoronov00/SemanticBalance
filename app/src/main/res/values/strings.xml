@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name">Semantic</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="accountFragmentTitle">Личный кабинет</string>
+    <string name="personalAccountTitle">Лицевой счёт</string>
+    <string name="balance">Баланс</string>
+    <string name="nextPayTitle">Следующая оплата</string>
+    <string name="payNoBalance">Не хватает денег, чтобы оплатить интернет. Необходимо пополнить баланс</string>
+    <string name="informationTitle">Информация</string>
+    <string name="tariff">Тариф</string>
+    <string name="subscriptionFeeTitle">Абонентская плата</string>
+    <string name="accountStateTitle">Состояние счёта</string>
+    <string name="news">Новости</string>
+    <string name="lastNews">Последние новости</string>
+    <string name="services">Услуги</string>
+    <string name="reports">Отчёты</string>
+    <string name="callToSupport">Позвонить в службу поддержки</string>
+    <string name="allNews">Все новости</string>
+    <string name="accountReplenishment">Пополнения счёта</string>
+    <string name="replenishment">Пополнение</string>
+    <string name="accountDebiting">Списания</string>
+    <string name="allDebiting">Все списания</string>
+    <string name="seeAllReplenishments">Все пополнения</string>
+    <string name="logout">Выйти из аккаунта</string>
+
+
+    <string name="accountId">№ %d</string>
+    <string name="moneyInRoubles">%s ₽</string>
+    <string name="moneyInRoublesPerMonth">%s ₽/мес.</string>
+    <string name="moneyReplenishment">+%s ₽</string>
+    <string name="moneyWithdraw">-%s ₽</string>
+    <string name="support">Поддержка</string>
+
+    <string name="defaultSupportNumber">+7 (495) 540–99–55</string>
+    <string name="sign_in_username">Имя пользователя</string>
+    <string name="sign_in_password">Пароль</string>
+    <string name="sign_in_no_account">Не знаете имя пользователя?</string>
+    <string name="sign_in_enter">Войти</string>
+
+    <string name="error_no_connection">Отсутствует связь с сервером. Проверьте подключение к интернету</string>
+    <string name="semantic">Semantic</string>
+
+    <plurals name="afterDays">
+        <item quantity="zero">нет дней</item>
+        <item quantity="one">через %1$d день</item>
+        <item quantity="two">через %1$d дня</item>
+        <item quantity="few">через %1$d дня</item>
+        <item quantity="many">через %1$d дней</item>
+        <item quantity="other">через %1$d котов</item>
+    </plurals>
+
+    <string-array name="reports">
+        <item>По платежам</item>
+        <item>По услугам</item>
+    </string-array>
+</resources>

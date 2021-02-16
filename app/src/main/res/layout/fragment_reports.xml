@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".presentation.ui.reports.ReportsFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="@string/reports"
+            app:titleTextColor="@color/white"
+            android:theme="@style/ThemeOverlay.MaterialComponents.Toolbar.Primary"
+            app:navigationIcon="@drawable/ic_baseline_arrow_back_24" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.tiper.MaterialSpinner
+        android:id="@+id/reportSpinner"
+        android:layout_width="match_parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="4dp"
+        android:focusable="false"
+        style="@style/Widget.Design.TextInputLayout"
+        android:layout_height="wrap_content"/>
+
+    <include
+        android:id="@+id/reportsError"
+        layout="@layout/error"
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="12dp"/>
+
+    <LinearLayout
+        android:id="@+id/reportsShimmer"
+        android:layout_width="match_parent"
+        android:layout_marginTop="8dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include layout="@layout/item_report_shimmer"/>
+        <include layout="@layout/item_report_shimmer"/>
+        <include layout="@layout/item_report_shimmer"/>
+        <include layout="@layout/item_report_shimmer"/>
+        <include layout="@layout/item_report_shimmer"/>
+        <include layout="@layout/item_report_shimmer"/>
+        <include layout="@layout/item_report_shimmer"/>
+        <include layout="@layout/item_report_shimmer"/>
+        <include layout="@layout/item_report_shimmer"/>
+        <include layout="@layout/item_report_shimmer"/>
+        <include layout="@layout/item_report_shimmer"/>
+        <include layout="@layout/item_report_shimmer"/>
+        <include layout="@layout/item_report_shimmer"/>
+    </LinearLayout>
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerReports"
+        android:paddingTop="8dp"
+        android:clipToPadding="false"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/item_report_service" />
+
+</LinearLayout>

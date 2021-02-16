@@ -19,7 +19,8 @@ import javax.inject.Singleton
         RepositoryModule::class,
         NavigationModule::class,
         DataModule::class,
-        UseCaseModule::class
+        UseCaseModule::class,
+        AnalyticsModule::class
     ]
 )
 interface AppComponent {

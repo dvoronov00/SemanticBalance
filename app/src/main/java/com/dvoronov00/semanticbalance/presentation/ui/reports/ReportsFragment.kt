@@ -20,6 +20,7 @@ import com.dvoronov00.semanticbalance.presentation.di.ViewModelFactory
 import com.dvoronov00.semanticbalance.presentation.ui.reports.reportsAdapter.ReportsRecyclerAdapter
 import com.dvoronov00.semanticbalance.presentation.ui.toScreen
 import com.github.terrakok.cicerone.Screen
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.tiper.MaterialSpinner
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
@@ -38,6 +39,8 @@ class ReportsFragment : Fragment() {
 
     private var binding: FragmentReportsBinding? = null
 
+    @Inject
+    lateinit var analytics: FirebaseAnalytics
 
     private val vm: ReportsViewModel by lazy {
         ViewModelProvider(this, viewModelFactory).get(ReportsViewModel::class.java)
@@ -78,12 +81,10 @@ class ReportsFragment : Fragment() {
                         vm.getServicesReports()
                     }
                 }
-                Log.v("MaterialSpinner", "onItemSelected parent=${parent.id}, position=$position")
                 parent.focusSearch(View.FOCUS_UP)?.requestFocus()
             }
 
             override fun onNothingSelected(parent: MaterialSpinner) {
-                Log.v("MaterialSpinner", "onNothingSelected parent=${parent.id}")
             }
         }
     }
@@ -101,16 +102,14 @@ class ReportsFragment : Fragment() {
                 R.array.reports,
                 android.R.layout.simple_spinner_item
             )
+
             spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.reportSpinner.adapter = spinnerAdapter
             binding.reportSpinner.onItemSelectedListener = spinnerListener
             binding.reportSpinner.selection = 0
 
-
-
             binding.toolbar.setNavigationOnClickListener {
                 vm.back()
-
             }
         }
 
@@ -125,10 +124,14 @@ class ReportsFragment : Fragment() {
                     reportsAdapter.setList(it.data)
                     binding?.reportsShimmer?.visibility = View.GONE
                     binding?.reportsError?.root?.visibility = View.GONE
+                    analytics.logEvent("user_get_report_success",  null)
                 }
                 is DataState.Failure -> {
                     binding?.reportsShimmer?.visibility = View.GONE
                     binding?.reportsError?.root?.visibility = View.VISIBLE
+                    val bundle = Bundle()
+                    bundle.putString("error", it.error.message)
+                    analytics.logEvent("user_get_report_error",  bundle)
                 }
             }
         }

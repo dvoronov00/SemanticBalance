@@ -17,6 +17,7 @@ import com.dvoronov00.semanticbalance.presentation.ui.MainActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.analytics.FirebaseAnalytics
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -33,6 +34,8 @@ class AuthActivity : AppCompatActivity() {
     @Inject
     lateinit var authRepository: AuthRepository
 
+    @Inject
+    lateinit var analytics: FirebaseAnalytics
 
     private lateinit var parentLayout: CoordinatorLayout
     private lateinit var usernameTV: TextInputEditText
@@ -91,6 +94,7 @@ class AuthActivity : AppCompatActivity() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
+                analytics.logEvent("user_login_success",  null)
                 enterProgressBar.visibility = View.GONE
                 storageRepository.saveUser(it)
                 val intent = Intent(this, MainActivity::class.java)
@@ -105,12 +109,17 @@ class AuthActivity : AppCompatActivity() {
                     it.message.toString()
                 }
                 showSnackBar(message)
+
+
             })
 
         disposeBag.add(disposable)
     }
 
     private fun showSnackBar(text: String) {
+        val bundle = Bundle()
+        bundle.putString("error", text)
+        analytics.logEvent("user_login_error",  bundle)
         val snack = Snackbar.make(parentLayout, text, Snackbar.LENGTH_LONG)
             .setBackgroundTint(ContextCompat.getColor(this, R.color.red))
             .setTextColor(ContextCompat.getColor(this, R.color.white))

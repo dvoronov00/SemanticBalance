@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SemanticBalance"
         android:networkSecurityConfig="@xml/network_security_config">
-        <activity android:name="com.dvoronov00.semanticbalance.presentation.ui.splash.SplashActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name="com.dvoronov00.semanticbalance.presentation.ui.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,9 +22,10 @@
             </intent-filter>
         </activity>
         <activity android:name="com.dvoronov00.semanticbalance.presentation.ui.auth.AuthActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name="com.dvoronov00.semanticbalance.presentation.ui.MainActivity"/>
+
+
     </application>
 
 </manifest>

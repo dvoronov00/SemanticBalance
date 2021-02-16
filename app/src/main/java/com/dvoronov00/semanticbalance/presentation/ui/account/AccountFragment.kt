@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dvoronov00.semanticbalance.R
 import com.dvoronov00.semanticbalance.data.calculateExistingDays
+import com.dvoronov00.semanticbalance.data.exception.UserNotFoundException
 import com.dvoronov00.semanticbalance.databinding.FragmentAccountBinding
 import com.dvoronov00.semanticbalance.domain.model.Account
 import com.dvoronov00.semanticbalance.domain.model.DataState
@@ -24,6 +26,9 @@ import com.dvoronov00.semanticbalance.presentation.ui.account.servicesAdapter.Se
 import com.dvoronov00.semanticbalance.presentation.ui.auth.AuthActivity
 import com.dvoronov00.semanticbalance.presentation.ui.toScreen
 import com.github.terrakok.cicerone.Screen
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.messaging.FirebaseMessaging
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.functions.Consumer
 import javax.inject.Inject
@@ -41,6 +46,9 @@ class AccountFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
+    @Inject
+    lateinit var analytics: FirebaseAnalytics
 
     private var binding: FragmentAccountBinding? = null
 
@@ -78,6 +86,7 @@ class AccountFragment : Fragment() {
                 vm.navigateToReportsFragment()
             }
             R.id.menuLogout -> {
+                analytics.logEvent("user_logout",  null)
                 vm.logout()
             }
         }
@@ -102,6 +111,7 @@ class AccountFragment : Fragment() {
             }
 
             binding.cardViewCallToSupport.setOnClickListener {
+                analytics.logEvent("user_push_button_call_to_support",  null)
                 val intent = Intent(
                     Intent.ACTION_DIAL,
                     Uri.parse("tel:" + getString(R.string.defaultSupportNumber))
@@ -109,6 +119,15 @@ class AccountFragment : Fragment() {
                 startActivity(intent)
             }
         }
+
+/*        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.e(TAG, "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+            val token = task.result
+            Log.e(TAG, "token: $token")
+        })*/
 
         vm.accountDataRelay
             .observeOn(AndroidSchedulers.mainThread())
@@ -143,10 +162,14 @@ class AccountFragment : Fragment() {
                 binding?.newsError?.root?.visibility = View.GONE
                 hideNewsShimmer()
                 newsAdapter.setList(result.data)
+                analytics.logEvent("user_get_news",  null)
             }
             is DataState.Failure -> {
                 hideNewsShimmer()
                 binding?.newsError?.root?.visibility = View.VISIBLE
+                val bundle = Bundle()
+                bundle.putString("error", result.error.message)
+                analytics.logEvent("user_get_news_error",  bundle)
             }
         }
     }
@@ -161,6 +184,7 @@ class AccountFragment : Fragment() {
                 showAccountData(account = result.data)
                 hideAccountShimmer()
                 binding?.swipeRefreshLayout?.isRefreshing = false
+                analytics.logEvent("user_get_account",  null)
             }
             is DataState.Failure -> {
                 Toast.makeText(
@@ -169,6 +193,9 @@ class AccountFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
                 binding?.swipeRefreshLayout?.isRefreshing = false
+                val bundle = Bundle()
+                bundle.putString("error", result.error.message)
+                analytics.logEvent("user_get_account_error",  bundle)
             }
         }
     }
@@ -205,6 +232,11 @@ class AccountFragment : Fragment() {
                 textViewTariffName.visibility = View.VISIBLE
                 textViewSubscriptionFee.visibility = View.VISIBLE
                 textViewAccountState.visibility = View.VISIBLE
+
+                analytics.setUserId(account.id.toString())
+                analytics.setUserProperty("user_balance", account.balance)
+                analytics.setUserProperty("user_existing_days", calculatedDays.toString())
+                analytics.setUserProperty("user_tariff", account.tariffName)
             }
         }
     }

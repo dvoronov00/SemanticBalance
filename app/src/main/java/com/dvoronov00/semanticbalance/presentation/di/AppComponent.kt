@@ -7,6 +7,7 @@ import com.dvoronov00.semanticbalance.presentation.ui.account.AccountFragment
 import com.dvoronov00.semanticbalance.presentation.ui.auth.AuthActivity
 import com.dvoronov00.semanticbalance.presentation.ui.reports.ReportsFragment
 import com.dvoronov00.semanticbalance.presentation.ui.splash.SplashActivity
+import com.dvoronov00.semanticbalance.presentation.worker.CheckBalanceWorker
 import dagger.Component
 import javax.inject.Singleton
 
@@ -34,4 +35,8 @@ interface AppComponent {
 
     fun inject(fragment: AccountFragment)
     fun inject(fragment: ReportsFragment)
+
+
+
+    fun inject(worker: CheckBalanceWorker)
 }

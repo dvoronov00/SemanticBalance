@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
+    id 'com.onesignal.androidsdk.onesignal-gradle-plugin'
 }
 
 android {
@@ -69,6 +70,8 @@ dependencies {
     // Jsoup
     implementation 'org.jsoup:jsoup:1.11.1'
 
+    // Workmanager
+    implementation "androidx.work:work-rxjava3:2.5.0"
 
     // Navigation
     implementation "com.github.terrakok:cicerone:6.6"
@@ -83,4 +86,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-messaging-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
+
+    // OneSignal
+    implementation 'com.onesignal:OneSignal:4.2.0'
 }

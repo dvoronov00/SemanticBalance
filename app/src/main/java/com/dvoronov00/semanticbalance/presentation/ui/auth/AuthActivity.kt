@@ -84,6 +84,11 @@ class AuthActivity : AppCompatActivity() {
             }
         }
 
+        dontKnowCredentialsTV.setOnClickListener {
+            val dialog = AuthHintDialogFragment()
+            dialog.show(supportFragmentManager, "hint")
+        }
+
     }
 
     private fun auth(username: String, password: String) {

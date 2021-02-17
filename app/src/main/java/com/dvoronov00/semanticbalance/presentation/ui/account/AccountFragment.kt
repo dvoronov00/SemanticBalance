@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.*
 import com.dvoronov00.semanticbalance.R
 import com.dvoronov00.semanticbalance.data.calculateExistingDays
 import com.dvoronov00.semanticbalance.data.exception.UserNotFoundException
@@ -25,12 +26,16 @@ import com.dvoronov00.semanticbalance.presentation.ui.account.servicesAdapter.Ne
 import com.dvoronov00.semanticbalance.presentation.ui.account.servicesAdapter.ServicesRecyclerAdapter
 import com.dvoronov00.semanticbalance.presentation.ui.auth.AuthActivity
 import com.dvoronov00.semanticbalance.presentation.ui.toScreen
+import com.dvoronov00.semanticbalance.presentation.worker.CheckBalanceWorker
 import com.github.terrakok.cicerone.Screen
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.messaging.FirebaseMessaging
+import com.onesignal.OneSignal
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.functions.Consumer
+import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
@@ -86,7 +91,8 @@ class AccountFragment : Fragment() {
                 vm.navigateToReportsFragment()
             }
             R.id.menuLogout -> {
-                analytics.logEvent("user_logout",  null)
+                WorkManager.getInstance(requireContext()).cancelAllWorkByTag("BalanceChecker");
+                analytics.logEvent("user_logout", null)
                 vm.logout()
             }
         }
@@ -111,7 +117,7 @@ class AccountFragment : Fragment() {
             }
 
             binding.cardViewCallToSupport.setOnClickListener {
-                analytics.logEvent("user_push_button_call_to_support",  null)
+                analytics.logEvent("user_push_button_call_to_support", null)
                 val intent = Intent(
                     Intent.ACTION_DIAL,
                     Uri.parse("tel:" + getString(R.string.defaultSupportNumber))
@@ -162,14 +168,14 @@ class AccountFragment : Fragment() {
                 binding?.newsError?.root?.visibility = View.GONE
                 hideNewsShimmer()
                 newsAdapter.setList(result.data)
-                analytics.logEvent("user_get_news",  null)
+                analytics.logEvent("user_get_news", null)
             }
             is DataState.Failure -> {
                 hideNewsShimmer()
                 binding?.newsError?.root?.visibility = View.VISIBLE
                 val bundle = Bundle()
                 bundle.putString("error", result.error.message)
-                analytics.logEvent("user_get_news_error",  bundle)
+                analytics.logEvent("user_get_news_error", bundle)
             }
         }
     }
@@ -184,7 +190,8 @@ class AccountFragment : Fragment() {
                 showAccountData(account = result.data)
                 hideAccountShimmer()
                 binding?.swipeRefreshLayout?.isRefreshing = false
-                analytics.logEvent("user_get_account",  null)
+                analytics.logEvent("user_get_account", null)
+                runCheckBalanceWorker(result.data.calculateExistingDays())
             }
             is DataState.Failure -> {
                 Toast.makeText(
@@ -195,8 +202,27 @@ class AccountFragment : Fragment() {
                 binding?.swipeRefreshLayout?.isRefreshing = false
                 val bundle = Bundle()
                 bundle.putString("error", result.error.message)
-                analytics.logEvent("user_get_account_error",  bundle)
+                analytics.logEvent("user_get_account_error", bundle)
             }
+        }
+    }
+
+    private fun runCheckBalanceWorker(existingDays: Int) {
+        val tag = "BalanceChecker"
+        WorkManager.getInstance(requireContext()).cancelAllWorkByTag(tag);
+        if (existingDays == 1 || existingDays == 2) {
+            val workerConstraints = Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .setRequiresBatteryNotLow(true)
+                .build()
+
+            val initDelay = 24 - Calendar.getInstance().get(Calendar.HOUR) + 12 // Устанавливаем делей так, чтобы уведомление пришло в ~12-13 часов
+            val checkBalanceWorker = OneTimeWorkRequest.Builder(CheckBalanceWorker::class.java)
+                .addTag(tag)
+                .setConstraints(workerConstraints)
+                .setInitialDelay(initDelay.toLong(), TimeUnit.HOURS)
+                .build()
+            WorkManager.getInstance(requireContext()).enqueue(checkBalanceWorker)
         }
     }
 
@@ -215,7 +241,7 @@ class AccountFragment : Fragment() {
                 if (calculatedDays > 0) {
                     textViewNextPayTitle.visibility = View.VISIBLE
                     textViewExistingDays.visibility = View.VISIBLE
-                    textViewPayNoBalance.visibility = View.GONE
+                    textViewHintLowBalance.visibility = View.GONE
                     textViewExistingDays.text = resources.getQuantityString(
                         R.plurals.afterDays,
                         calculatedDays,
@@ -224,7 +250,12 @@ class AccountFragment : Fragment() {
                 } else {
                     textViewNextPayTitle.visibility = View.GONE
                     textViewExistingDays.visibility = View.GONE
-                    textViewPayNoBalance.visibility = View.VISIBLE
+                    textViewHintLowBalance.visibility = View.VISIBLE
+                    if(account.state.equals("Разблокирован")){
+                        textViewHintLowBalance.text = getString(R.string.hintLowBalance)
+                    }else{
+                        textViewHintLowBalance.text = getString(R.string.hintNoBalance)
+                    }
                 }
 
                 textViewUserAccountId.visibility = View.VISIBLE
@@ -233,10 +264,16 @@ class AccountFragment : Fragment() {
                 textViewSubscriptionFee.visibility = View.VISIBLE
                 textViewAccountState.visibility = View.VISIBLE
 
-                analytics.setUserId(account.id.toString())
-                analytics.setUserProperty("user_balance", account.balance)
-                analytics.setUserProperty("user_existing_days", calculatedDays.toString())
-                analytics.setUserProperty("user_tariff", account.tariffName)
+                analytics.setUserId(account.id.toString().trim())
+                analytics.setUserProperty("user_balance", account.balance?.trim())
+                analytics.setUserProperty("user_existing_days", calculatedDays.toString().trim())
+                analytics.setUserProperty("user_tariff", account.tariffName?.trim())
+
+                OneSignal.sendTag("user_id", account.id.toString().trim())
+                OneSignal.sendTag("user_balance", account.balance?.trim())
+                OneSignal.sendTag("user_existing_days", calculatedDays.toString().trim())
+                OneSignal.sendTag("user_existing_days", calculatedDays.toString().trim())
+                OneSignal.sendTag("user_tariff", account.tariffName?.trim())
             }
         }
     }

@@ -23,18 +23,22 @@
             android:paddingStart="16dp"
             android:paddingEnd="16dp">
 
+
+
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/semantic"
                 android:textSize="40sp" />
+
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayoutPhone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+
                 android:hint="@string/sign_in_username">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -45,6 +49,7 @@
                     android:inputType="text"
                     android:maxLines="1"
                     android:minLines="1"
+                    android:backgroundTint="@color/white"
                     android:nextFocusDown="@+id/textInputEditTextPassword" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -63,7 +68,10 @@
                     android:imeOptions="actionDone"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:minLines="1" />
+                    android:minLines="1"
+                    android:backgroundTint="@color/white"
+                    android:nextFocusDown="@+id/buttonEnter"
+                    />
 
             </com.google.android.material.textfield.TextInputLayout>
 

@@ -1,20 +1,11 @@
 package com.dvoronov00.semanticbalance.presentation.ui.paymentMethod
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.dvoronov00.semanticbalance.domain.model.Account
-import com.dvoronov00.semanticbalance.domain.model.DataState
-import com.dvoronov00.semanticbalance.domain.model.Report
-import com.dvoronov00.semanticbalance.domain.repository.AccountRepository
 import com.dvoronov00.semanticbalance.domain.repository.StorageRepository
-import com.dvoronov00.semanticbalance.domain.usecase.AuthUserUseCase
 import com.github.terrakok.cicerone.Router
 import com.jakewharton.rxrelay3.BehaviorRelay
-import com.jakewharton.rxrelay3.PublishRelay
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import java.lang.Exception
-import java.text.SimpleDateFormat
 import javax.inject.Inject
 
 class PaymentMethodViewModel @Inject constructor(

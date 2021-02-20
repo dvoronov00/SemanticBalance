@@ -9,25 +9,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.dvoronov00.semanticbalance.R
 import com.dvoronov00.semanticbalance.databinding.FragmentPaymentMethodBinding
-import com.dvoronov00.semanticbalance.databinding.FragmentReportsBinding
-import com.dvoronov00.semanticbalance.domain.model.DataState
 import com.dvoronov00.semanticbalance.presentation.App
 import com.dvoronov00.semanticbalance.presentation.di.ViewModelFactory
-import com.dvoronov00.semanticbalance.presentation.ui.reports.reportsAdapter.ReportsRecyclerAdapter
 import com.dvoronov00.semanticbalance.presentation.ui.toScreen
 import com.github.terrakok.cicerone.Screen
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.tiper.MaterialSpinner
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
@@ -49,7 +41,7 @@ class PaymentMethodFragment : Fragment() {
     lateinit var analytics: FirebaseAnalytics
 
     @Inject
-    lateinit var remoteConfig : FirebaseRemoteConfig
+    lateinit var remoteConfig: FirebaseRemoteConfig
 
 
     private val vm: PaymentMethodViewModel by lazy {
@@ -80,14 +72,14 @@ class PaymentMethodFragment : Fragment() {
             binding.toolbar.setNavigationOnClickListener {
                 vm.back()
             }
-            if(checkIsSberbankOnlineInstalled()){
+            if (checkIsSberbankOnlineInstalled()) {
                 binding.sberCardView.isEnabled = true
                 binding.sberCardView.alpha = 1.0f
-            }else{
+            } else {
                 binding.sberCardView.isEnabled = false
                 binding.sberCardView.alpha = 0.55f
             }
-            with(remoteConfig){
+            with(remoteConfig) {
                 binding.paymentMethodHint.text = this.getString("payment_method_hint")
 
                 binding.sberCardView.setOnClickListener {

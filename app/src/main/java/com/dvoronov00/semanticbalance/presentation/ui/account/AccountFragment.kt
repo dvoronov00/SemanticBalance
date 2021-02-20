@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -13,10 +12,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.work.*
+import androidx.work.Constraints
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import com.dvoronov00.semanticbalance.R
 import com.dvoronov00.semanticbalance.data.calculateExistingDays
-import com.dvoronov00.semanticbalance.data.exception.UserNotFoundException
 import com.dvoronov00.semanticbalance.databinding.FragmentAccountBinding
 import com.dvoronov00.semanticbalance.domain.model.Account
 import com.dvoronov00.semanticbalance.domain.model.DataState
@@ -29,9 +30,7 @@ import com.dvoronov00.semanticbalance.presentation.ui.auth.AuthActivity
 import com.dvoronov00.semanticbalance.presentation.ui.toScreen
 import com.dvoronov00.semanticbalance.presentation.worker.CheckBalanceWorker
 import com.github.terrakok.cicerone.Screen
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.onesignal.OneSignal
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -58,8 +57,7 @@ class AccountFragment : Fragment() {
     lateinit var analytics: FirebaseAnalytics
 
     @Inject
-    lateinit var remoteConfig : FirebaseRemoteConfig
-
+    lateinit var remoteConfig: FirebaseRemoteConfig
 
 
     private var binding: FragmentAccountBinding? = null
@@ -157,7 +155,8 @@ class AccountFragment : Fragment() {
 
     private fun bindRemoteConfig() {
         binding?.let { binding ->
-            binding.cardViewPay.isVisible = remoteConfig.getBoolean("is_balance_replenishment_enabled")
+            binding.cardViewPay.isVisible =
+                remoteConfig.getBoolean("is_balance_replenishment_enabled")
             binding.supportWorktime.text = remoteConfig.getString("semantic_support_worktime")
             binding.cardViewCallToSupport.setOnClickListener {
                 analytics.logEvent("user_push_button_call_to_support", null)
@@ -229,7 +228,8 @@ class AccountFragment : Fragment() {
                 .setRequiresBatteryNotLow(true)
                 .build()
 
-            val initDelay = 24 - Calendar.getInstance().get(Calendar.HOUR) + 12 // Устанавливаем делей так, чтобы уведомление пришло в ~12-13 часов
+            val initDelay = 24 - Calendar.getInstance()
+                .get(Calendar.HOUR) + 12 // Устанавливаем делей так, чтобы уведомление пришло в ~12-13 часов
             val checkBalanceWorker = OneTimeWorkRequest.Builder(CheckBalanceWorker::class.java)
                 .addTag(tag)
                 .setConstraints(workerConstraints)
@@ -264,9 +264,9 @@ class AccountFragment : Fragment() {
                     textViewNextPayTitle.visibility = View.GONE
                     textViewExistingDays.visibility = View.GONE
                     textViewHintLowBalance.visibility = View.VISIBLE
-                    if(account.state.equals("Разблокирован")){
+                    if (account.state.equals("Разблокирован")) {
                         textViewHintLowBalance.text = getString(R.string.hintLowBalance)
-                    }else{
+                    } else {
                         textViewHintLowBalance.text = getString(R.string.hintNoBalance)
                     }
                 }

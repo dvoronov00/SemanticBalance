@@ -1,6 +1,5 @@
 package com.dvoronov00.semanticbalance.presentation.ui.account
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.dvoronov00.semanticbalance.domain.model.Account
 import com.dvoronov00.semanticbalance.domain.model.DataState
@@ -47,7 +46,6 @@ class AccountViewModel @Inject constructor(
                 accountDataRelay.accept(DataState.Success(account))
             }, { throwable ->
                 accountDataRelay.accept(DataState.Failure(throwable))
-                Log.e(TAG, "getAccountData: $throwable")
             })
 
         disposeBag.add(disposable)
@@ -62,7 +60,6 @@ class AccountViewModel @Inject constructor(
                 newsDataRelay.accept(DataState.Success(newsList.take(2)))
             }, { throwable ->
                 newsDataRelay.accept(DataState.Failure(throwable))
-                Log.e(TAG, "getNews: $throwable")
             })
 
         disposeBag.add(disposable)
@@ -81,7 +78,6 @@ class AccountViewModel @Inject constructor(
     fun navigateToPaymentMethodFragment() {
         router.navigateTo(PaymentMethodFragment.screen())
     }
-
 
 
     fun cancelAll() {

@@ -34,13 +34,13 @@
         <include
             android:id="@+id/error"
             layout="@layout/error"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_below="@id/appBarLayout2"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:visibility="gone" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/mainContent"
@@ -56,7 +56,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Номер вашего лицевого счёта"
+                android:text="@string/your_account_id"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -68,9 +68,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="140dp"
                 android:layout_marginTop="8dp"
-                app:layout_constrainedWidth="true"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="20dp"
+                app:layout_constrainedWidth="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView">
@@ -98,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:gravity="center"
-                android:text="Укажите его на странице оплаты"
+                android:text="@string/write_it_on_the_payment_page"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/userIdCardView" />
@@ -112,7 +112,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:gravity="center"
-                android:text="Способы оплаты"
+                android:text="@string/payment_methods"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -152,7 +152,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:gravity="center"
-                        android:text="Минимальная сумма опалаты 300 рублей" />
+                        android:text="@string/min_payment_sum_300" />
 
 
                 </LinearLayout>
@@ -192,13 +192,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:gravity="center"
-                        android:text="Минимальная сумма опалаты 1 рубль" />
+                        android:text="@string/min_payment_sum_1" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Можно оплатить банковской картой"
+                        android:text="@string/can_pay_by_bank_card"
                         android:textSize="12sp" />
 
                 </LinearLayout>
@@ -231,21 +231,20 @@
                         android:layout_height="50dp"
                         android:adjustViewBounds="true"
                         android:src="@drawable/bank_card_logo"
-                        app:srcCompat="@drawable/bank_card_logo"
-                        />
+                        app:srcCompat="@drawable/bank_card_logo" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:gravity="center"
-                        android:text="Любой банковской картой" />
+                        android:text="@string/any_bank_card" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Минимальная сумма опалаты 300 рублей" />
+                        android:text="@string/min_payment_sum_300" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

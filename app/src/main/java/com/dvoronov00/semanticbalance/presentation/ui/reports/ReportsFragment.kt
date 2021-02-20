@@ -2,7 +2,6 @@ package com.dvoronov00.semanticbalance.presentation.ui.reports
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -124,14 +123,14 @@ class ReportsFragment : Fragment() {
                     reportsAdapter.setList(it.data)
                     binding?.reportsShimmer?.visibility = View.GONE
                     binding?.reportsError?.root?.visibility = View.GONE
-                    analytics.logEvent("user_get_report_success",  null)
+                    analytics.logEvent("user_get_report_success", null)
                 }
                 is DataState.Failure -> {
                     binding?.reportsShimmer?.visibility = View.GONE
                     binding?.reportsError?.root?.visibility = View.VISIBLE
                     val bundle = Bundle()
                     bundle.putString("error", it.error.message)
-                    analytics.logEvent("user_get_report_error",  bundle)
+                    analytics.logEvent("user_get_report_error", bundle)
                 }
             }
         }

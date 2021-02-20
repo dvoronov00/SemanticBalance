@@ -42,6 +42,13 @@
     <string name="semantic">Semantic</string>
     <string name="channel_description">Уведомления о балансе</string>
     <string name="auth_hint_description">Использовать данное приложение могут только пользователи интернет-провайдера Semantic Telecom, который осуществляет свою деятельность на территории Красногорского района Московской области. Данные для входа такие же, как если бы вы авторизовывались через сайт stat.semantic.su.</string>
+    <string name="min_payment_sum_300">Минимальная сумма опалаты 300 рублей</string>
+    <string name="any_bank_card">Любой банковской картой</string>
+    <string name="can_pay_by_bank_card">Можно оплатить банковской картой</string>
+    <string name="min_payment_sum_1">Минимальная сумма опалаты 1 рубль</string>
+    <string name="payment_methods">Способы оплаты</string>
+    <string name="write_it_on_the_payment_page">Укажите его на странице оплаты</string>
+    <string name="your_account_id">Номер вашего лицевого счёта</string>
 
     <plurals name="afterDays">
         <item quantity="zero">нет дней</item>

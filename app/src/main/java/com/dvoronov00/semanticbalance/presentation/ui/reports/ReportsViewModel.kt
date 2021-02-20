@@ -1,6 +1,5 @@
 package com.dvoronov00.semanticbalance.presentation.ui.reports
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.dvoronov00.semanticbalance.domain.model.DataState
 import com.dvoronov00.semanticbalance.domain.model.Report
@@ -35,7 +34,6 @@ class ReportsViewModel @Inject constructor(
                 reportsDataRelay.accept(DataState.Success(serviceReportList))
             }, { throwable ->
                 reportsDataRelay.accept(DataState.Failure(throwable))
-                Log.e(TAG, "getServicesReports: $throwable")
             })
 
         disposeBag.add(disposable)
@@ -55,7 +53,6 @@ class ReportsViewModel @Inject constructor(
                 reportsDataRelay.accept(DataState.Success(result))
             }, { throwable ->
                 reportsDataRelay.accept(DataState.Failure(throwable))
-                Log.e(TAG, "getPaymentsReports: $throwable")
             })
 
         disposeBag.add(disposable)

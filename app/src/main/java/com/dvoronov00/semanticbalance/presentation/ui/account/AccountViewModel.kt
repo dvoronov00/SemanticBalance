@@ -8,6 +8,7 @@ import com.dvoronov00.semanticbalance.domain.model.News
 import com.dvoronov00.semanticbalance.domain.repository.NewsRepository
 import com.dvoronov00.semanticbalance.domain.repository.StorageRepository
 import com.dvoronov00.semanticbalance.domain.usecase.GetAccountDataUseCase
+import com.dvoronov00.semanticbalance.presentation.ui.paymentMethod.PaymentMethodFragment
 import com.dvoronov00.semanticbalance.presentation.ui.reports.ReportsFragment
 import com.github.terrakok.cicerone.Router
 import com.jakewharton.rxrelay3.BehaviorRelay
@@ -76,6 +77,12 @@ class AccountViewModel @Inject constructor(
     fun navigateToReportsFragment() {
         router.navigateTo(ReportsFragment.screen())
     }
+
+    fun navigateToPaymentMethodFragment() {
+        router.navigateTo(PaymentMethodFragment.screen())
+    }
+
+
 
     fun cancelAll() {
         disposeBag.forEach { it.dispose() }

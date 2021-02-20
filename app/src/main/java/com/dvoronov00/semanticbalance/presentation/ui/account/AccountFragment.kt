@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,6 +32,7 @@ import com.github.terrakok.cicerone.Screen
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.onesignal.OneSignal
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.functions.Consumer
@@ -54,6 +56,11 @@ class AccountFragment : Fragment() {
 
     @Inject
     lateinit var analytics: FirebaseAnalytics
+
+    @Inject
+    lateinit var remoteConfig : FirebaseRemoteConfig
+
+
 
     private var binding: FragmentAccountBinding? = null
 
@@ -102,6 +109,10 @@ class AccountFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
+        remoteConfig.fetchAndActivate().addOnCompleteListener {
+            bindRemoteConfig()
+        }
         binding?.let { binding ->
             binding.recyclerViewServices.adapter = servicesAdapter
             binding.recyclerViewNews.adapter = newsAdapter
@@ -115,25 +126,12 @@ class AccountFragment : Fragment() {
                 vm.getAccountData()
                 vm.getNews()
             }
-
-            binding.cardViewCallToSupport.setOnClickListener {
-                analytics.logEvent("user_push_button_call_to_support", null)
-                val intent = Intent(
-                    Intent.ACTION_DIAL,
-                    Uri.parse("tel:" + getString(R.string.defaultSupportNumber))
-                )
-                startActivity(intent)
+            binding.cardViewPay.setOnClickListener {
+                vm.navigateToPaymentMethodFragment()
             }
+
+            bindRemoteConfig()
         }
-
-/*        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Log.e(TAG, "Fetching FCM registration token failed", task.exception)
-                return@OnCompleteListener
-            }
-            val token = task.result
-            Log.e(TAG, "token: $token")
-        })*/
 
         vm.accountDataRelay
             .observeOn(AndroidSchedulers.mainThread())
@@ -155,6 +153,21 @@ class AccountFragment : Fragment() {
                 startActivity(intent)
                 activity?.finish()
             }
+    }
+
+    private fun bindRemoteConfig() {
+        binding?.let { binding ->
+            binding.cardViewPay.isVisible = remoteConfig.getBoolean("is_balance_replenishment_enabled")
+            binding.supportWorktime.text = remoteConfig.getString("semantic_support_worktime")
+            binding.cardViewCallToSupport.setOnClickListener {
+                analytics.logEvent("user_push_button_call_to_support", null)
+                val intent = Intent(
+                    Intent.ACTION_DIAL,
+                    Uri.parse("tel:" + remoteConfig.getString("semantic_support_telephone"))
+                )
+                startActivity(intent)
+            }
+        }
     }
 
     private val consumerGetNews = Consumer<DataState<List<News>>> { result ->

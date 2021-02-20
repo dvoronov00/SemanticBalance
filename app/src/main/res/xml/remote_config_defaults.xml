@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <entry>
+        <key>is_balance_replenishment_enabled</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>sber_semantic_deeplink</key>
+        <value>android-app://ru.sberbankmobile/android-app/ru.sberbankmobile/payments/services/init?cs=296518777068</value>
+    </entry>
+    <entry>
+        <key>qiwi_semantic_url</key>
+        <value>https://qiwi.com/payment/form/1708</value>
+    </entry>
+    <entry>
+        <key>bankcard_semantic_url</key>
+        <value>https://unode.semantic.su/ui</value>
+    </entry>
+    <entry>
+        <key>semantic_support_telephone</key>
+        <value>+7 (495) 540–99–55</value>
+    </entry>
+    <entry>
+        <key>semantic_support_worktime</key>
+        <value>с 10:00 до 21:00</value>
+    </entry>
+    <entry>
+        <key>payment_method_hint</key>
+        <value>Разработчик не несёт ответственности за совершаемые операции. По всем вопросам обращайтесь в поддержку</value>
+    </entry>
+
+</defaultsMap>

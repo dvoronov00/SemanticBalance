@@ -74,6 +74,7 @@ class JsoupSemanticConnection : SemanticConnection {
 
             val sdf = SimpleDateFormat("dd.MM.yyyy", Locale.ROOT)
             val calendar = Calendar.getInstance()
+            calendar.add(Calendar.DAY_OF_MONTH, 1)
             val endDate = sdf.format(calendar.time)
             calendar.add(Calendar.YEAR, -1)
             val startDate = sdf.format(calendar.time)
@@ -105,6 +106,7 @@ class JsoupSemanticConnection : SemanticConnection {
 
             val sdf = SimpleDateFormat("dd.MM.yyyy", Locale.ROOT)
             val calendar = Calendar.getInstance()
+            calendar.add(Calendar.DAY_OF_MONTH, 1)
             val endDate = sdf.format(calendar.time)
             calendar.add(Calendar.YEAR, -1)
             val startDate = sdf.format(calendar.time)

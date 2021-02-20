@@ -10,6 +10,7 @@ import com.github.terrakok.cicerone.Router
 import com.jakewharton.rxrelay3.PublishRelay
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import java.text.SimpleDateFormat
 import javax.inject.Inject
 
 class ReportsViewModel @Inject constructor(
@@ -48,7 +49,9 @@ class ReportsViewModel @Inject constructor(
             .observeOn(Schedulers.io())
             .doOnSubscribe { reportsDataRelay.accept(DataState.Loading()) }
             .subscribe({ paymentReportList ->
-                val result = paymentReportList.sortedBy { it.date }
+                val result = paymentReportList.sortedByDescending {
+                    SimpleDateFormat("dd.MM.yyyy hh:mm").parse(it.date)
+                }
                 reportsDataRelay.accept(DataState.Success(result))
             }, { throwable ->
                 reportsDataRelay.accept(DataState.Failure(throwable))

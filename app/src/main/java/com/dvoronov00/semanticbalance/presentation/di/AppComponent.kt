@@ -5,6 +5,7 @@ import com.dvoronov00.semanticbalance.presentation.di.module.*
 import com.dvoronov00.semanticbalance.presentation.ui.MainActivity
 import com.dvoronov00.semanticbalance.presentation.ui.account.AccountFragment
 import com.dvoronov00.semanticbalance.presentation.ui.auth.AuthActivity
+import com.dvoronov00.semanticbalance.presentation.ui.paymentMethod.PaymentMethodFragment
 import com.dvoronov00.semanticbalance.presentation.ui.reports.ReportsFragment
 import com.dvoronov00.semanticbalance.presentation.ui.splash.SplashActivity
 import com.dvoronov00.semanticbalance.presentation.worker.CheckBalanceWorker
@@ -21,7 +22,7 @@ import javax.inject.Singleton
         NavigationModule::class,
         DataModule::class,
         UseCaseModule::class,
-        AnalyticsModule::class
+        FirebaseModule::class
     ]
 )
 interface AppComponent {
@@ -35,6 +36,7 @@ interface AppComponent {
 
     fun inject(fragment: AccountFragment)
     fun inject(fragment: ReportsFragment)
+    fun inject(fragment: PaymentMethodFragment)
 
 
 

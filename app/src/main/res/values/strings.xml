@@ -19,6 +19,7 @@
     <string name="allNews">Все новости</string>
     <string name="accountReplenishment">Пополнения счёта</string>
     <string name="replenishment">Пополнение</string>
+    <string name="replenish">Пополнить</string>
     <string name="accountDebiting">Списания</string>
     <string name="allDebiting">Все списания</string>
     <string name="seeAllReplenishments">Все пополнения</string>
@@ -49,6 +50,7 @@
     <string name="payment_methods">Способы оплаты</string>
     <string name="write_it_on_the_payment_page">Укажите его на странице оплаты</string>
     <string name="your_account_id">Номер вашего лицевого счёта</string>
+    <string name="plus">+</string>
 
     <plurals name="afterDays">
         <item quantity="zero">нет дней</item>

@@ -19,14 +19,11 @@ import com.dvoronov00.semanticbalance.presentation.di.ViewModelFactory
 import com.dvoronov00.semanticbalance.presentation.ui.reports.reportsAdapter.ReportsRecyclerAdapter
 import com.dvoronov00.semanticbalance.presentation.ui.toScreen
 import com.github.terrakok.cicerone.Screen
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.tiper.MaterialSpinner
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
 class ReportsFragment : Fragment() {
-    private val TAG = "ReportsFragment"
-
     companion object {
         fun screen(): Screen {
             return ReportsFragment().toScreen()
@@ -37,9 +34,6 @@ class ReportsFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelFactory
 
     private var binding: FragmentReportsBinding? = null
-
-    @Inject
-    lateinit var analytics: FirebaseAnalytics
 
     private val vm: ReportsViewModel by lazy {
         ViewModelProvider(this, viewModelFactory).get(ReportsViewModel::class.java)
@@ -55,7 +49,7 @@ class ReportsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         val fragmentBinding = FragmentReportsBinding.inflate(inflater, container, false)
         binding = fragmentBinding
@@ -123,18 +117,18 @@ class ReportsFragment : Fragment() {
                     reportsAdapter.setList(it.data)
                     binding?.reportsShimmer?.visibility = View.GONE
                     binding?.reportsError?.root?.visibility = View.GONE
-                    analytics.logEvent("user_get_report_success", null)
                 }
                 is DataState.Failure -> {
                     binding?.reportsShimmer?.visibility = View.GONE
                     binding?.reportsError?.root?.visibility = View.VISIBLE
-                    val bundle = Bundle()
-                    bundle.putString("error", it.error.message)
-                    analytics.logEvent("user_get_report_error", bundle)
                 }
             }
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        vm.onFragmentStart()
+    }
 
 }

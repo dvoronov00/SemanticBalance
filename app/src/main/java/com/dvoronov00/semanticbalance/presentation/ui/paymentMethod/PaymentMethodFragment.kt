@@ -18,7 +18,6 @@ import com.dvoronov00.semanticbalance.presentation.App
 import com.dvoronov00.semanticbalance.presentation.di.ViewModelFactory
 import com.dvoronov00.semanticbalance.presentation.ui.toScreen
 import com.github.terrakok.cicerone.Screen
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
@@ -36,9 +35,6 @@ class PaymentMethodFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelFactory
 
     private var binding: FragmentPaymentMethodBinding? = null
-
-    @Inject
-    lateinit var analytics: FirebaseAnalytics
 
     @Inject
     lateinit var remoteConfig: FirebaseRemoteConfig
@@ -83,7 +79,6 @@ class PaymentMethodFragment : Fragment() {
                 binding.paymentMethodHint.text = this.getString("payment_method_hint")
 
                 binding.sberCardView.setOnClickListener {
-                    analytics.logEvent("user_payment_sber_click", null)
                     val sberDeeplink = this.getString("sber_semantic_deeplink")
                     val intent = Intent(Intent.ACTION_VIEW)
                     intent.setData(Uri.parse(sberDeeplink))
@@ -91,7 +86,6 @@ class PaymentMethodFragment : Fragment() {
                 }
 
                 binding.qiwiCardView.setOnClickListener {
-                    analytics.logEvent("user_payment_qiwi_click", null)
                     val qiwiUrl = this.getString("qiwi_semantic_url")
                     val intent = Intent(Intent.ACTION_VIEW)
                     intent.setData(Uri.parse(qiwiUrl))
@@ -99,7 +93,6 @@ class PaymentMethodFragment : Fragment() {
                 }
 
                 binding.bankCardView.setOnClickListener {
-                    analytics.logEvent("user_payment_bankcard_click", null)
                     val bankcardUrl = this.getString("bankcard_semantic_url")
                     val intent = Intent(Intent.ACTION_VIEW)
                     intent.setData(Uri.parse(bankcardUrl))

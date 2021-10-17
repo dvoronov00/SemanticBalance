@@ -30,9 +30,7 @@ import com.dvoronov00.semanticbalance.presentation.ui.auth.AuthActivity
 import com.dvoronov00.semanticbalance.presentation.ui.toScreen
 import com.dvoronov00.semanticbalance.presentation.worker.CheckBalanceWorker
 import com.github.terrakok.cicerone.Screen
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.onesignal.OneSignal
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.functions.Consumer
 import java.util.*
@@ -52,9 +50,6 @@ class AccountFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-
-    @Inject
-    lateinit var analytics: FirebaseAnalytics
 
     @Inject
     lateinit var remoteConfig: FirebaseRemoteConfig
@@ -96,8 +91,7 @@ class AccountFragment : Fragment() {
                 vm.navigateToReportsFragment()
             }
             R.id.menuLogout -> {
-                WorkManager.getInstance(requireContext()).cancelAllWorkByTag("BalanceChecker");
-                analytics.logEvent("user_logout", null)
+                WorkManager.getInstance(requireContext()).cancelAllWorkByTag("BalanceChecker")
                 vm.logout()
             }
         }
@@ -159,7 +153,6 @@ class AccountFragment : Fragment() {
                 remoteConfig.getBoolean("is_balance_replenishment_enabled")
             binding.supportWorktime.text = remoteConfig.getString("semantic_support_worktime")
             binding.cardViewCallToSupport.setOnClickListener {
-                analytics.logEvent("user_push_button_call_to_support", null)
                 val intent = Intent(
                     Intent.ACTION_DIAL,
                     Uri.parse("tel:" + remoteConfig.getString("semantic_support_telephone"))
@@ -180,14 +173,10 @@ class AccountFragment : Fragment() {
                 binding?.newsError?.root?.visibility = View.GONE
                 hideNewsShimmer()
                 newsAdapter.setList(result.data)
-                analytics.logEvent("user_get_news", null)
             }
             is DataState.Failure -> {
                 hideNewsShimmer()
                 binding?.newsError?.root?.visibility = View.VISIBLE
-                val bundle = Bundle()
-                bundle.putString("error", result.error.message)
-                analytics.logEvent("user_get_news_error", bundle)
             }
         }
     }
@@ -202,7 +191,6 @@ class AccountFragment : Fragment() {
                 showAccountData(account = result.data)
                 hideAccountShimmer()
                 binding?.swipeRefreshLayout?.isRefreshing = false
-                analytics.logEvent("user_get_account", null)
                 runCheckBalanceWorker(result.data.calculateExistingDays())
             }
             is DataState.Failure -> {
@@ -212,9 +200,6 @@ class AccountFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
                 binding?.swipeRefreshLayout?.isRefreshing = false
-                val bundle = Bundle()
-                bundle.putString("error", result.error.message)
-                analytics.logEvent("user_get_account_error", bundle)
             }
         }
     }
@@ -276,17 +261,6 @@ class AccountFragment : Fragment() {
                 textViewTariffName.visibility = View.VISIBLE
                 textViewSubscriptionFee.visibility = View.VISIBLE
                 textViewAccountState.visibility = View.VISIBLE
-
-                analytics.setUserId(account.id.toString().trim())
-                analytics.setUserProperty("user_balance", account.balance?.trim())
-                analytics.setUserProperty("user_existing_days", calculatedDays.toString().trim())
-                analytics.setUserProperty("user_tariff", account.tariffName?.trim())
-
-                OneSignal.sendTag("user_id", account.id.toString().trim())
-                OneSignal.sendTag("user_balance", account.balance?.trim())
-                OneSignal.sendTag("user_existing_days", calculatedDays.toString().trim())
-                OneSignal.sendTag("user_existing_days", calculatedDays.toString().trim())
-                OneSignal.sendTag("user_tariff", account.tariffName?.trim())
             }
         }
     }

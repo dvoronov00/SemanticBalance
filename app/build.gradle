@@ -90,4 +90,10 @@ dependencies {
 
     // OneSignal
     implementation 'com.onesignal:OneSignal:4.2.0'
+
+    // Yandex Metrica
+    implementation 'com.yandex.android:mobmetricalib:3.21.0'
+
+    // Timber
+    implementation 'com.jakewharton.timber:timber:5.0.1'
 }

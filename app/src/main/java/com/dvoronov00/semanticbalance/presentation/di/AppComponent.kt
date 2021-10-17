@@ -22,23 +22,20 @@ import javax.inject.Singleton
         NavigationModule::class,
         DataModule::class,
         UseCaseModule::class,
-        FirebaseModule::class
+        FirebaseModule::class,
+        InteractorModule::class
     ]
 )
 interface AppComponent {
-
     fun context(): Context
 
     fun inject(activity: SplashActivity)
     fun inject(activity: AuthActivity)
     fun inject(activity: MainActivity)
 
-
     fun inject(fragment: AccountFragment)
     fun inject(fragment: ReportsFragment)
     fun inject(fragment: PaymentMethodFragment)
-
-
 
     fun inject(worker: CheckBalanceWorker)
 }

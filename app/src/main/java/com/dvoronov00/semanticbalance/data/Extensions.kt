@@ -13,7 +13,7 @@ fun Account.calculateExistingDays(): Int {
     val calendar = Calendar.getInstance()
 
     // Оплата происходит в 00:10 каждого дня. Если время больше, чем 00:10, значит за сегодня пользователь уже заплатил и считать не нужно
-    if (calendar.get(Calendar.HOUR_OF_DAY) > 1
+    if (calendar.get(Calendar.HOUR_OF_DAY) >= 1
         ||
         (calendar.get(Calendar.HOUR_OF_DAY) == 0 && calendar.get(Calendar.MINUTE ) >= 10)
     ) {

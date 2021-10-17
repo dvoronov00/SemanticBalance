@@ -11,6 +11,7 @@ import com.github.terrakok.cicerone.Router
 import com.github.terrakok.cicerone.Screen
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.github.terrakok.cicerone.androidx.FragmentScreen
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
@@ -21,6 +22,9 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var navigatorHolder: NavigatorHolder
 
+    // TODO: Вынести в VM
+    @Inject
+    lateinit var remoteConfig: FirebaseRemoteConfig
 
     private val navigator = object : AppNavigator(this, R.id.container){
     }
@@ -29,6 +33,8 @@ class MainActivity : AppCompatActivity() {
         App.getComponent().inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
+        remoteConfig.fetchAndActivate()
         navigatorHolder.setNavigator(navigator)
         router.newRootScreen(AccountFragment.screen())
     }

@@ -38,7 +38,8 @@ class AccountFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private var binding: FragmentAccountBinding? = null
+    private var _binding: FragmentAccountBinding? = null
+    private val binding get() = _binding!!
 
     private val vm: AccountViewModel by lazy {
         ViewModelProvider(this, viewModelFactory).get(AccountViewModel::class.java)
@@ -57,7 +58,7 @@ class AccountFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val fragmentBinding = FragmentAccountBinding.inflate(inflater, container, false)
-        binding = fragmentBinding
+        _binding = fragmentBinding
         (activity as AppCompatActivity).setSupportActionBar(fragmentBinding.toolbar)
         setHasOptionsMenu(true)
         return fragmentBinding.root
@@ -85,13 +86,13 @@ class AccountFragment : Fragment() {
     }
 
     private fun initUI() {
-        binding?.recyclerViewServices?.adapter = servicesAdapter
-        binding?.recyclerViewNews?.adapter = newsAdapter
+        binding.recyclerViewServices.adapter = servicesAdapter
+        binding.recyclerViewNews.adapter = newsAdapter
     }
 
     private fun initUX() {
-        binding?.swipeRefreshLayout?.setOnRefreshListener(vm::loadScreenData)
-        binding?.cardViewPay?.setOnClickListener { vm.onPayCardViewClick() }
+        binding.swipeRefreshLayout.setOnRefreshListener(vm::loadScreenData)
+        binding.cardViewPay.setOnClickListener { vm.onPayCardViewClick() }
     }
 
     private fun bindViewModel() {
@@ -122,31 +123,29 @@ class AccountFragment : Fragment() {
             is DataState.Loading -> {
                 newsAdapter.clearList()
                 showNewsShimmer()
-                binding?.newsError?.root?.visibility = View.GONE
+                binding.newsError.root.isVisible = false
             }
             is DataState.Success -> {
-                binding?.newsError?.root?.visibility = View.GONE
+                binding.newsError.root.isVisible = false
                 hideNewsShimmer()
                 newsAdapter.setList(result.data)
             }
             is DataState.Failure -> {
                 hideNewsShimmer()
-                binding?.newsError?.root?.visibility = View.VISIBLE
+                binding.newsError.root.isVisible = true
             }
         }
     }
 
     private val consumerRemoteConfig = Consumer<RemoteConfigData> { config ->
-        binding?.let { binding ->
-            with(binding) {
-                cardViewPay.isVisible = config.isBalanceReplenishmentEnabled
-                supportWorktime.text = config.supportWorkTime
-                cardViewCallToSupport.setOnClickListener {
-                    Intent(
-                        Intent.ACTION_DIAL,
-                        config.supportTelephone.toTelUri()
-                    ).let(::startActivity)
-                }
+        with(binding) {
+            cardViewPay.isVisible = config.isBalanceReplenishmentEnabled
+            supportWorktime.text = config.supportWorkTime
+            cardViewCallToSupport.setOnClickListener {
+                Intent(
+                    Intent.ACTION_DIAL,
+                    config.supportTelephone.toTelUri()
+                ).let(::startActivity)
             }
         }
     }
@@ -160,11 +159,11 @@ class AccountFragment : Fragment() {
             is DataState.Success -> {
                 showAccountData(result.data)
                 hideAccountShimmer()
-                binding?.swipeRefreshLayout?.isRefreshing = false
+                binding.swipeRefreshLayout.isRefreshing = false
             }
             is DataState.Failure -> {
                 showErrorConnectionToast()
-                binding?.swipeRefreshLayout?.isRefreshing = false
+                binding.swipeRefreshLayout.isRefreshing = false
             }
         }
     }
@@ -178,34 +177,32 @@ class AccountFragment : Fragment() {
     }
 
     private fun showAccountData(data: AccountData) {
-        binding?.let {
-            with(it) {
-                textViewUserAccountId.visibility = View.VISIBLE
-                textViewBalance.visibility = View.VISIBLE
-                textViewTariffName.visibility = View.VISIBLE
-                textViewSubscriptionFee.visibility = View.VISIBLE
-                textViewAccountState.visibility = View.VISIBLE
+        with(binding) {
+            textViewUserAccountId.isVisible = true
+            textViewBalance.isVisible = true
+            textViewTariffName.isVisible = true
+            textViewSubscriptionFee.isVisible = true
+            textViewAccountState.isVisible = true
 
-                textViewUserAccountId.text = data.id
-                textViewBalance.text = data.balance
-                textViewTariffName.text = data.tariffName
-                textViewSubscriptionFee.text = data.subscriptionFee
-                textViewAccountState.text = data.state
-                servicesAdapter.setList(data.serviceList)
+            textViewUserAccountId.text = data.id
+            textViewBalance.text = data.balance
+            textViewTariffName.text = data.tariffName
+            textViewSubscriptionFee.text = data.subscriptionFee
+            textViewAccountState.text = data.state
+            servicesAdapter.setList(data.serviceList)
 
-                when (data.daysExisting) {
-                    is AccountData.DaysExisting.SomeDaysExisting -> {
-                        textViewNextPayTitle.visibility = View.VISIBLE
-                        textViewExistingDays.visibility = View.VISIBLE
-                        textViewHintLowBalance.visibility = View.GONE
-                        textViewExistingDays.text = data.daysExisting.daysQuantityText
-                    }
-                    is AccountData.DaysExisting.ZeroDaysExisting -> {
-                        textViewNextPayTitle.visibility = View.GONE
-                        textViewExistingDays.visibility = View.GONE
-                        textViewHintLowBalance.visibility = View.VISIBLE
-                        textViewHintLowBalance.text = data.daysExisting.hintText
-                    }
+            when (data.daysExisting) {
+                is AccountData.DaysExisting.SomeDaysExisting -> {
+                    textViewNextPayTitle.isVisible = true
+                    textViewExistingDays.isVisible = true
+                    textViewHintLowBalance.isVisible = false
+                    textViewExistingDays.text = data.daysExisting.daysQuantityText
+                }
+                is AccountData.DaysExisting.ZeroDaysExisting -> {
+                    textViewNextPayTitle.isVisible = false
+                    textViewExistingDays.isVisible = false
+                    textViewHintLowBalance.isVisible = true
+                    textViewHintLowBalance.text = data.daysExisting.hintText
                 }
             }
         }
@@ -219,42 +216,39 @@ class AccountFragment : Fragment() {
     }
 
     private fun hideAccountViewData() {
-        binding?.let {
-            with(it) {
-                textViewUserAccountId.visibility = View.INVISIBLE
-                textViewBalance.visibility = View.INVISIBLE
-                textViewTariffName.visibility = View.INVISIBLE
-                textViewSubscriptionFee.visibility = View.INVISIBLE
-                textViewAccountState.visibility = View.INVISIBLE
-                servicesAdapter.clearList()
-            }
+        with(binding) {
+            textViewUserAccountId.visibility = View.INVISIBLE
+            textViewBalance.visibility = View.INVISIBLE
+            textViewTariffName.visibility = View.INVISIBLE
+            textViewSubscriptionFee.visibility = View.INVISIBLE
+            textViewAccountState.visibility = View.INVISIBLE
+            servicesAdapter.clearList()
         }
     }
 
     private fun showAccountShimmer() {
-        binding?.shimmerCardAccount?.visibility = View.VISIBLE
-        binding?.shimmerCardInformation?.visibility = View.VISIBLE
-        binding?.shimmerCardServices?.visibility = View.VISIBLE
+        binding.shimmerCardAccount.isVisible = true
+        binding.shimmerCardInformation.isVisible = true
+        binding.shimmerCardServices.isVisible = true
     }
 
     private fun hideAccountShimmer() {
-        binding?.shimmerCardAccount?.visibility = View.GONE
-        binding?.shimmerCardInformation?.visibility = View.GONE
-        binding?.shimmerCardServices?.visibility = View.GONE
+        binding.shimmerCardAccount.isVisible = false
+        binding.shimmerCardInformation.isVisible = false
+        binding.shimmerCardServices.isVisible = false
     }
 
     private fun showNewsShimmer() {
-        binding?.shimmerCardNews?.visibility = View.VISIBLE
+        binding.shimmerCardNews.isVisible = true
     }
 
     private fun hideNewsShimmer() {
-        binding?.shimmerCardNews?.visibility = View.GONE
+        binding.shimmerCardNews.isVisible = false
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
+        _binding = null
     }
 
     companion object {

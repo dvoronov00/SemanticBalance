@@ -6,7 +6,7 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_LOG_LEVEL" value="verbose" />
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="warn" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
     <option name="TOOL_WINDOW_REGEXP_FILTER" value="false" />
   </component>
@@ -37,35 +37,62 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d67a3c85-ec05-47ab-88e9-f34eb7dcecbe" name="Default Changelist" comment="Fixed bug when day not adds if hour of day == 1">
+    <list default="true" id="d67a3c85-ec05-47ab-88e9-f34eb7dcecbe" name="Default Changelist" comment="Updated gradle files">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/data/ResourceManagerImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/data/extension/StringExtension.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/domain/RemoteConfigData.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/domain/ResourceManager.kt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/domain/usecase/analytic/TrackScreenHasErrorsInteractor.kt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/domain/usecase/analytic/TrackUserProfileInteractor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/presentation/data/GetRemoteConfigDataInteractor.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/presentation/data/mappers/AccountDataMapper.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/presentation/ui/account/model/AccountData.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/classAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/jarAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/jarAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/javaCompile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/taskHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules/app/Semantic_Balance.app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/app/Semantic_Balance.app.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/data/Extensions.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/data/Extensions.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/data/Extensions.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/data/extension/Extensions.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/domain/AnalyticKey.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/domain/AnalyticKey.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/domain/Const.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/domain/Const.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/domain/usecase/TrackAnalyticInteractor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/domain/usecase/analytic/TrackAnalyticInteractor.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/domain/usecase/TrackScreenHasErrorsInteractor.kt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/domain/usecase/TrackScreenShownInteractor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/domain/usecase/analytic/TrackScreenShownInteractor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/presentation/App.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/presentation/App.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/presentation/di/module/DataModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/presentation/di/module/DataModule.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/presentation/di/module/InteractorModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/presentation/di/module/InteractorModule.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/presentation/di/module/RepositoryModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/presentation/di/module/RepositoryModule.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/presentation/ui/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/presentation/ui/MainActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/presentation/ui/account/AccountFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/presentation/ui/account/AccountFragment.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/presentation/ui/account/AccountViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/presentation/ui/account/AccountViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/presentation/ui/auth/AuthActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/presentation/ui/auth/AuthActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/presentation/ui/paymentMethod/PaymentMethodFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/presentation/ui/paymentMethod/PaymentMethodFragment.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/presentation/ui/reports/ReportsViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/presentation/ui/reports/ReportsViewModel.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/presentation/worker/CheckBalanceWorker.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/presentation/worker/CheckBalanceWorker.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_account.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_account.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\DVoronov\.android\avd\Nexus_7_API_28.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[192.168.0.105:42141]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -103,13 +130,13 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Kotlin Interface" />
         <option value="Class" />
-        <option value="Kotlin File" />
         <option value="layoutResourceFile" />
         <option value="resourceFile" />
-        <option value="Kotlin Class" />
         <option value="Kotlin Object" />
+        <option value="Kotlin File" />
+        <option value="Kotlin Interface" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
@@ -122,10 +149,18 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature/ready_app_for_market_SEM-1" />
+        <entry key="$PROJECT_DIR$" value="feature/delete_useless_analytics_SEM-2" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="ProjectId" id="1o0kTroDcT1nclJjusbHUk2Di9D" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -155,7 +190,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Kotlin" />
   </component>
   <component name="PsdUISettings">
     <option name="LAST_EDITED_BUILD_TYPE" value="release" />
@@ -173,11 +208,11 @@
       <recent name="C:\Projects\Android\2020\SemanticBalance\app\src\main\java\com\dvoronov00\semanticbalance\ui" />
     </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="com.dvoronov00.semanticbalance.presentation.ui.account.model" />
       <recent name="com.dvoronov00.semanticbalance.domain.usecase.analytic" />
       <recent name="com.dvoronov00.semanticbalance.presentation" />
       <recent name="com.dvoronov00.semanticbalance" />
       <recent name="com.dvoronov00.semanticbalance.domain.remote" />
-      <recent name="com.dvoronov00.semanticbalance.domain.storage" />
     </key>
     <key name="android.template.-1662454060">
       <recent name="com.dvoronov00.semanticbalance.ui.splash" />
@@ -307,7 +342,35 @@
       <option name="project" value="LOCAL" />
       <updated>1634479075522</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="New auto added files">
+      <created>1634479746542</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1634479746542</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Removed tracking analytics from AccountFragment">
+      <created>1634479823370</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1634479823370</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Removed tracking analytics from PaymentMethodFragment">
+      <created>1634479857978</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1634479857978</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Updated gradle files">
+      <created>1634479941904</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1634479941904</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -325,17 +388,10 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Refactoring reports fragment analytics" />
     <MESSAGE value="Fixed bug when day not adds if hour of day == 1" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed bug when day not adds if hour of day == 1" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/dvoronov00/semanticbalance/domain/usecase/analytic/TrackAnalyticInteractor.kt</url>
-          <line>9</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="New auto added files" />
+    <MESSAGE value="Removed tracking analytics from AccountFragment" />
+    <MESSAGE value="Removed tracking analytics from PaymentMethodFragment" />
+    <MESSAGE value="Updated gradle files" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated gradle files" />
   </component>
 </project>

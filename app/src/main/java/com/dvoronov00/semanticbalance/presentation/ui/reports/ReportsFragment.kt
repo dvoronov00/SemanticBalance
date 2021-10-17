@@ -7,10 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.dvoronov00.semanticbalance.R
 import com.dvoronov00.semanticbalance.databinding.FragmentReportsBinding
 import com.dvoronov00.semanticbalance.domain.model.DataState
@@ -24,16 +23,12 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
 class ReportsFragment : Fragment() {
-    companion object {
-        fun screen(): Screen {
-            return ReportsFragment().toScreen()
-        }
-    }
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private var binding: FragmentReportsBinding? = null
+    private var _binding: FragmentReportsBinding? = null
+    private val binding get() = _binding!!
 
     private val vm: ReportsViewModel by lazy {
         ViewModelProvider(this, viewModelFactory).get(ReportsViewModel::class.java)
@@ -52,7 +47,7 @@ class ReportsFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         val fragmentBinding = FragmentReportsBinding.inflate(inflater, container, false)
-        binding = fragmentBinding
+        _binding = fragmentBinding
         (activity as AppCompatActivity).setSupportActionBar(fragmentBinding.toolbar)
         return fragmentBinding.root
     }
@@ -67,63 +62,73 @@ class ReportsFragment : Fragment() {
             ) {
                 vm.cancelAll()
                 when (position) {
-                    0 -> {
-                        vm.getPaymentsReports()
-                    }
-                    1 -> {
-                        vm.getServicesReports()
-                    }
+                    0 -> vm.getPaymentsReports()
+                    1 -> vm.getServicesReports()
                 }
                 parent.focusSearch(View.FOCUS_UP)?.requestFocus()
             }
 
-            override fun onNothingSelected(parent: MaterialSpinner) {
-            }
+            override fun onNothingSelected(parent: MaterialSpinner) {}
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initUI()
+        initUX()
+        initVM()
+    }
 
-        binding?.let { binding ->
-            binding.recyclerReports.adapter = reportsAdapter
-            binding.recyclerReports.layoutManager =
-                LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+    private fun initUI() {
+        binding.recyclerReports.adapter = reportsAdapter
 
-            val spinnerAdapter = ArrayAdapter.createFromResource(
-                requireContext(),
-                R.array.reports,
-                android.R.layout.simple_spinner_item
-            )
+        val spinnerAdapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.reports,
+            android.R.layout.simple_spinner_item
+        )
 
-            spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            binding.reportSpinner.adapter = spinnerAdapter
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        with(binding.reportSpinner) {
+            adapter = spinnerAdapter
             binding.reportSpinner.onItemSelectedListener = spinnerListener
             binding.reportSpinner.selection = 0
 
-            binding.toolbar.setNavigationOnClickListener {
-                vm.back()
-            }
         }
+    }
 
-        vm.reportsDataRelay.observeOn(AndroidSchedulers.mainThread()).subscribe {
-            when (it) {
-                is DataState.Loading -> {
-                    binding?.reportsShimmer?.visibility = View.VISIBLE
-                    binding?.reportsError?.root?.visibility = View.GONE
-                    reportsAdapter.clearList()
-                }
-                is DataState.Success -> {
-                    reportsAdapter.setList(it.data)
-                    binding?.reportsShimmer?.visibility = View.GONE
-                    binding?.reportsError?.root?.visibility = View.GONE
-                }
-                is DataState.Failure -> {
-                    binding?.reportsShimmer?.visibility = View.GONE
-                    binding?.reportsError?.root?.visibility = View.VISIBLE
+    private fun initUX() {
+        binding.toolbar.setNavigationOnClickListener {
+            vm.back()
+        }
+    }
+
+    private fun initVM() {
+        vm.reportsDataRelay
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                when (it) {
+                    is DataState.Loading -> {
+                        binding.reportsShimmer.isVisible = true
+                        binding.reportsError.root.isVisible = false
+                        reportsAdapter.clearList()
+                    }
+                    is DataState.Success -> {
+                        reportsAdapter.setList(it.data)
+                        binding.reportsShimmer.isVisible = false
+                        binding.reportsError.root.isVisible = false
+                    }
+                    is DataState.Failure -> {
+                        binding.reportsShimmer.isVisible = false
+                        binding.reportsError.root.isVisible = true
+                    }
                 }
             }
-        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onStart() {
@@ -131,4 +136,9 @@ class ReportsFragment : Fragment() {
         vm.onFragmentStart()
     }
 
+    companion object {
+        fun screen(): Screen {
+            return ReportsFragment().toScreen()
+        }
+    }
 }

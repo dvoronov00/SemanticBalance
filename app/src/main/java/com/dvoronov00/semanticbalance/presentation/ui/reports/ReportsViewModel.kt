@@ -1,22 +1,19 @@
 package com.dvoronov00.semanticbalance.presentation.ui.reports
 
-import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import com.dvoronov00.semanticbalance.domain.AnalyticKey
-import com.dvoronov00.semanticbalance.domain.Const.UNDEFINED_ERROR
 import com.dvoronov00.semanticbalance.domain.model.DataState
 import com.dvoronov00.semanticbalance.domain.model.Report
 import com.dvoronov00.semanticbalance.domain.repository.AccountRepository
 import com.dvoronov00.semanticbalance.domain.usecase.AuthUserUseCase
-import com.dvoronov00.semanticbalance.domain.usecase.TrackAnalyticInteractor
-import com.dvoronov00.semanticbalance.domain.usecase.TrackScreenHasErrorsInteractor
-import com.dvoronov00.semanticbalance.domain.usecase.TrackScreenShownInteractor
+import com.dvoronov00.semanticbalance.domain.usecase.analytic.TrackScreenHasErrorsInteractor
+import com.dvoronov00.semanticbalance.domain.usecase.analytic.TrackScreenShownInteractor
 import com.github.terrakok.cicerone.Router
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.jakewharton.rxrelay3.PublishRelay
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 class ReportsViewModel @Inject constructor(
@@ -44,7 +41,7 @@ class ReportsViewModel @Inject constructor(
             .subscribe({ serviceReportList ->
                 reportsDataRelay.accept(DataState.Success(serviceReportList))
             }, { throwable ->
-                reportsDataRelay.accept(DataState.Failure(throwable))
+                showAndTrackError(throwable)
             })
 
         disposeBag.add(disposable)
@@ -59,20 +56,22 @@ class ReportsViewModel @Inject constructor(
             .doOnSubscribe { reportsDataRelay.accept(DataState.Loading()) }
             .subscribe({ paymentReportList ->
                 val result = paymentReportList.sortedByDescending {
-                    SimpleDateFormat("dd.MM.yyyy hh:mm").parse(it.date)
+                    SimpleDateFormat("dd.MM.yyyy hh:mm", Locale.getDefault()).parse(it.date)
                 }
                 reportsDataRelay.accept(DataState.Success(result))
             }, { throwable ->
-                reportsDataRelay.accept(DataState.Failure(throwable))
-                trackScreenHasErrorsInteractor.track(
-                    screenName = AnalyticKey.Reports.SCREEN_NAME,
-                    data = mapOf(
-                        (throwable.message ?: UNDEFINED_ERROR) to ""
-                    )
-                )
+                showAndTrackError(throwable)
             })
 
         disposeBag.add(disposable)
+    }
+
+    private fun showAndTrackError(throwable: Throwable) {
+        reportsDataRelay.accept(DataState.Failure(throwable))
+        trackScreenHasErrorsInteractor.track(
+            screenName = AnalyticKey.Reports.SCREEN_NAME,
+            error = throwable
+        )
     }
 
     fun cancelAll() {

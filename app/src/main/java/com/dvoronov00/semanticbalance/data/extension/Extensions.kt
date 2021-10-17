@@ -1,9 +1,10 @@
-package com.dvoronov00.semanticbalance.data
+package com.dvoronov00.semanticbalance.data.extension
 
 import com.dvoronov00.semanticbalance.data.exception.UserIsNotAuthorizedException
 import com.dvoronov00.semanticbalance.data.exception.UserSessionExpiredException
 import com.dvoronov00.semanticbalance.domain.model.Account
 import com.dvoronov00.semanticbalance.domain.model.User
+import java.text.SimpleDateFormat
 import java.util.*
 
 fun Account.calculateExistingDays(): Int {
@@ -51,3 +52,7 @@ fun User.checkSessionValid() : Throwable? {
         }
     }
 }
+
+fun Date.toFormattedDate() =
+    SimpleDateFormat("dd.MM.yyyy hh:mm", Locale("ru", "RU"))
+        .format(this)

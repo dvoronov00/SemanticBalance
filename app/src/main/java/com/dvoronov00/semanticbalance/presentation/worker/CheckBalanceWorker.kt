@@ -11,10 +11,9 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.work.WorkerParameters
 import androidx.work.rxjava3.RxWorker
 import com.dvoronov00.semanticbalance.R
-import com.dvoronov00.semanticbalance.data.calculateExistingDays
+import com.dvoronov00.semanticbalance.data.extension.calculateExistingDays
 import com.dvoronov00.semanticbalance.domain.usecase.GetAccountDataUseCase
 import com.dvoronov00.semanticbalance.presentation.App
-import com.google.firebase.analytics.FirebaseAnalytics
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.net.UnknownHostException
@@ -32,9 +31,6 @@ class CheckBalanceWorker(context: Context, parameterName: WorkerParameters) :
 
     @Inject
     lateinit var getAccountDataUseCase: GetAccountDataUseCase
-
-    @Inject
-    lateinit var analytics: FirebaseAnalytics
 
     private fun createNotification(existingDays: Int) {
         val builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -105,10 +101,6 @@ class CheckBalanceWorker(context: Context, parameterName: WorkerParameters) :
                         val existingDays = account.calculateExistingDays()
                         if (existingDays == 0 || existingDays == 1) {
                             createNotification(existingDays)
-//                            createNotification(0)
-                            val bundle = Bundle()
-                            bundle.putString("existing_days", existingDays.toString())
-                            analytics.logEvent("balance_notification_success", bundle)
                             single.onSuccess(Result.success())
                         }
                     }, {
@@ -116,18 +108,15 @@ class CheckBalanceWorker(context: Context, parameterName: WorkerParameters) :
                         bundle.putString("error", it.message)
                         when(it){
                             is UnknownHostException -> {
-                                analytics.logEvent("balance_notification_error", bundle)
                                 single.onSuccess(Result.retry())
                             }
                             else -> {
-                                analytics.logEvent("balance_notification_error", bundle)
                                 single.onError(it)
                             }
                         }
                     })
             }else{
                 val errorMessage = "Notification services is off"
-                analytics.logEvent("balance_notification_disabled", null)
                 single.onError(Exception(errorMessage))
             }
         }

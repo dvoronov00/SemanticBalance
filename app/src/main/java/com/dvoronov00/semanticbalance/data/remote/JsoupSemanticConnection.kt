@@ -1,6 +1,6 @@
 package com.dvoronov00.semanticbalance.data.remote
 
-import com.dvoronov00.semanticbalance.data.checkSessionValid
+import com.dvoronov00.semanticbalance.data.extension.checkSessionValid
 import com.dvoronov00.semanticbalance.data.exception.UserAuthErrorException
 import com.dvoronov00.semanticbalance.data.exception.UserSessionExpiredException
 import com.dvoronov00.semanticbalance.domain.model.User

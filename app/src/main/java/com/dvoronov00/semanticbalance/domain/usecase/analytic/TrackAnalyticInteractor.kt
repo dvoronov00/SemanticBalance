@@ -1,4 +1,4 @@
-package com.dvoronov00.semanticbalance.domain.usecase
+package com.dvoronov00.semanticbalance.domain.usecase.analytic
 
 import com.yandex.metrica.YandexMetrica
 import timber.log.Timber

@@ -5,6 +5,11 @@ import com.dvoronov00.semanticbalance.domain.parser.PaymentsReportsParser
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
+/**
+ * У провайдера отсутствует API, а разметка на странице без каких либо классов,
+ * поэтому парсим как есть "в лоб". Если админ провайдера поменяет разметку всё сломается
+ * ¯\_(ツ)_/¯
+ */
 class PaymentsReportsParserImpl(html: String) : PaymentsReportsParser {
 
     private val doc: Document = Jsoup.parse(html)

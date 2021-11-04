@@ -1,15 +1,31 @@
 package com.dvoronov00.semanticbalance.data.parser
 
+import com.dvoronov00.semanticbalance.domain.model.Account
 import com.dvoronov00.semanticbalance.domain.model.Service
 import com.dvoronov00.semanticbalance.domain.parser.AccountParser
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
-class AccountParserImpl(html: String) : AccountParser {
+/**
+ * У провайдера отсутствует API, а разметка на странице без каких либо классов,
+ * поэтому парсим как есть "в лоб". Если админ провайдера поменяет разметку всё сломается
+ * ¯\_(ツ)_/¯
+ */
+class AccountHtmlParserImpl(html: String) : AccountParser {
 
     private val doc: Document = Jsoup.parse(html)
 
-    override fun getId(): Int {
+    override fun getAccount(): Account =
+        Account(
+            getId(),
+            getBalance(),
+            getTariffName(),
+            getSubscriptionFee(),
+            getAccountState(),
+            getServices()
+        )
+
+    private fun getId(): Int {
         return doc
             .select("div.middle")
             .select("div#content")
@@ -23,7 +39,7 @@ class AccountParserImpl(html: String) : AccountParser {
             .toInt()
     }
 
-    override fun getBalance(): String {
+    private fun getBalance(): String {
         return doc
             .select("div.middle")
             .select("div#content")
@@ -38,7 +54,7 @@ class AccountParserImpl(html: String) : AccountParser {
             .trim()
     }
 
-    override fun getTariffName(): String {
+    private fun getTariffName(): String {
         return doc
             .select("div.middle")
             .select("div#content")
@@ -48,7 +64,7 @@ class AccountParserImpl(html: String) : AccountParser {
             .text()
     }
 
-    override fun getSubscriptionFee(): String {
+    private fun getSubscriptionFee(): String {
         return doc
             .select("div.middle")
             .select("div#content")
@@ -58,7 +74,7 @@ class AccountParserImpl(html: String) : AccountParser {
             .text()
     }
 
-    override fun getAccountState(): String {
+    private fun getAccountState(): String {
         return doc
             .select("div.middle")
             .select("div#content")
@@ -71,7 +87,7 @@ class AccountParserImpl(html: String) : AccountParser {
 
     }
 
-    override fun getServices(): List<Service> {
+    private fun getServices(): List<Service> {
         val result = arrayListOf<Service>()
         val servicesTags = doc
             .select("div.middle")

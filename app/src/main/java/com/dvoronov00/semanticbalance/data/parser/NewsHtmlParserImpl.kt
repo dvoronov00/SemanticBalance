@@ -5,10 +5,9 @@ import com.dvoronov00.semanticbalance.domain.parser.NewsParser
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
-class NewsParserImpl(html: String) : NewsParser {
+class NewsHtmlParserImpl(html: String) : NewsParser {
 
     private val doc: Document = Jsoup.parse(html)
-
 
     override fun getNews(): List<News> {
         val result = arrayListOf<News>()

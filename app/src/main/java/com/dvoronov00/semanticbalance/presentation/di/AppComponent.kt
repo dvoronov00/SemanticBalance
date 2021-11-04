@@ -23,7 +23,6 @@ import javax.inject.Singleton
         DataModule::class,
         UseCaseModule::class,
         FirebaseModule::class,
-        InteractorModule::class
     ]
 )
 interface AppComponent {

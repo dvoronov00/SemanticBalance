@@ -1,21 +1,35 @@
 package com.dvoronov00.semanticbalance.domain.model
 
+import com.dvoronov00.semanticbalance.data.exception.UserIsNotAuthorizedException
+import com.dvoronov00.semanticbalance.data.exception.UserSessionExpiredException
 
 data class User(
     val username: String,
     val password: String,
-    var session: String? = null,
-    var expireTime: Long = 0
+    var sessionId: String? = null,
+    var sessionExpiredTime: Long = 0
 ) {
 
-    private val sessionLifetime = 4 * 60 * 1000 // Время жизни сессии 5 минут, но мы ограничиваем 4
-
     fun updateSession(session: String){
-        this.session = session
-        this.expireTime = System.currentTimeMillis() + sessionLifetime
+        this.sessionId = session
+        this.sessionExpiredTime = System.currentTimeMillis() + SESSION_LIFE_TIME
     }
 
     fun isSessionExpired() : Boolean{
-        return System.currentTimeMillis() >= expireTime
+        return System.currentTimeMillis() >= sessionExpiredTime
     }
+
+    fun checkSessionValid(): Throwable? {
+        return when {
+            sessionId.isNullOrEmpty() -> UserIsNotAuthorizedException()
+            isSessionExpired() -> UserSessionExpiredException()
+            else -> null
+        }
+    }
+
+    companion object {
+        /** Время жизни сессии 5 минут, но мы ограничиваем 4 */
+        private const val SESSION_LIFE_TIME = 4 * 60 * 1000
+    }
+
 }

@@ -14,16 +14,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SemanticBalance"
         android:networkSecurityConfig="@xml/network_security_config">
-        <activity android:name="com.dvoronov00.semanticbalance.presentation.ui.splash.SplashActivity">
+        <activity android:name="com.dvoronov00.semanticbalance.presentation.ui.splash.SplashActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.dvoronov00.semanticbalance.presentation.ui.auth.AuthActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name="com.dvoronov00.semanticbalance.presentation.ui.MainActivity"/>
+        <activity android:name="com.dvoronov00.semanticbalance.presentation.ui.auth.AuthActivity" android:exported="true"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+        <activity android:name="com.dvoronov00.semanticbalance.presentation.ui.MainActivity" android:exported="true" />
 
 
     </application>

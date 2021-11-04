@@ -14,31 +14,21 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.dvoronov00.semanticbalance.databinding.FragmentPaymentMethodBinding
+import com.dvoronov00.semanticbalance.domain.RemoteConfigData
 import com.dvoronov00.semanticbalance.presentation.App
 import com.dvoronov00.semanticbalance.presentation.di.ViewModelFactory
 import com.dvoronov00.semanticbalance.presentation.ui.toScreen
 import com.github.terrakok.cicerone.Screen
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
 class PaymentMethodFragment : Fragment() {
-    private val TAG = "PaymentMethodFragment"
-
-    companion object {
-        fun screen(): Screen {
-            return PaymentMethodFragment().toScreen()
-        }
-    }
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private var binding: FragmentPaymentMethodBinding? = null
-
-    @Inject
-    lateinit var remoteConfig: FirebaseRemoteConfig
-
+    private var _binding: FragmentPaymentMethodBinding? = null
+    private val binding get() = _binding!!
 
     private val vm: PaymentMethodViewModel by lazy {
         ViewModelProvider(this, viewModelFactory).get(PaymentMethodViewModel::class.java)
@@ -52,10 +42,10 @@ class PaymentMethodFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         val fragmentBinding = FragmentPaymentMethodBinding.inflate(inflater, container, false)
-        binding = fragmentBinding
+        _binding = fragmentBinding
         (activity as AppCompatActivity).setSupportActionBar(fragmentBinding.toolbar)
         return fragmentBinding.root
     }
@@ -63,63 +53,62 @@ class PaymentMethodFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding?.let { binding ->
-            binding.toolbar.setNavigationOnClickListener {
-                vm.back()
-            }
-            if (checkIsSberbankOnlineInstalled()) {
-                binding.sberCardView.isEnabled = true
-                binding.sberCardView.alpha = 1.0f
-            } else {
-                binding.sberCardView.isEnabled = false
-                binding.sberCardView.alpha = 0.55f
-            }
-            with(remoteConfig) {
-                binding.paymentMethodHint.text = this.getString("payment_method_hint")
-
-                binding.sberCardView.setOnClickListener {
-                    val sberDeeplink = this.getString("sber_semantic_deeplink")
-                    val intent = Intent(Intent.ACTION_VIEW)
-                    intent.setData(Uri.parse(sberDeeplink))
-                    startActivity(intent)
-                }
-
-                binding.qiwiCardView.setOnClickListener {
-                    val qiwiUrl = this.getString("qiwi_semantic_url")
-                    val intent = Intent(Intent.ACTION_VIEW)
-                    intent.setData(Uri.parse(qiwiUrl))
-                    startActivity(intent)
-                }
-
-                binding.bankCardView.setOnClickListener {
-                    val bankcardUrl = this.getString("bankcard_semantic_url")
-                    val intent = Intent(Intent.ACTION_VIEW)
-                    intent.setData(Uri.parse(bankcardUrl))
-                    startActivity(intent)
-                }
-            }
-        }
+        binding.toolbar.setNavigationOnClickListener { vm.back() }
 
         vm.accountIdRelay
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                binding?.let { binding ->
-                    binding.userId.text = it.toString()
-                    binding.error.root.isVisible = false
-                    binding.mainContent.isVisible = true
-                }
+                binding.userId.text = it.toString()
+                binding.error.root.isVisible = false
+                binding.mainContent.isVisible = true
             }
-
 
         vm.errorRelay
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                binding?.let { binding ->
-                    binding.error.root.isVisible = true
-                    binding.mainContent.isVisible = false
-                }
+                binding.error.root.isVisible = true
+                binding.mainContent.isVisible = false
             }
+
+        vm.remoteConfigRelay
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { config ->
+                setRemoteConfigData(config)
+            }
+
+        updateSberbankOnlineMethodState()
+    }
+
+    private fun updateSberbankOnlineMethodState() {
+        if (checkIsSberbankOnlineInstalled()) {
+            binding.sberCardView.isEnabled = true
+            binding.sberCardView.alpha = 1.0f
+        } else {
+            binding.sberCardView.isEnabled = false
+            binding.sberCardView.alpha = 0.55f
+        }
+    }
+
+    private fun setRemoteConfigData(remoteConfigData: RemoteConfigData) {
+        with(binding) {
+            paymentMethodHint.text = remoteConfigData.payment.methodHintText
+
+            sberCardView.setOnClickListener {
+                startActivityWithUri(remoteConfigData.payment.sberDeeplink)
+            }
+
+            qiwiCardView.setOnClickListener {
+                startActivityWithUri(remoteConfigData.payment.qiwiDeeplink)
+            }
+
+            bankCardView.setOnClickListener {
+                startActivityWithUri(remoteConfigData.payment.bankcardDeeplink)
+            }
+        }
+    }
+
+    private fun startActivityWithUri(uri: String) {
+        Intent(Intent.ACTION_VIEW, Uri.parse(uri)).let(::startActivity)
     }
 
     private fun checkIsSberbankOnlineInstalled(): Boolean {
@@ -135,5 +124,14 @@ class PaymentMethodFragment : Fragment() {
             }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
+    companion object {
+        fun screen(): Screen {
+            return PaymentMethodFragment().toScreen()
+        }
+    }
 }

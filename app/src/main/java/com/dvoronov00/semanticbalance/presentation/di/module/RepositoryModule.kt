@@ -38,15 +38,9 @@ class RepositoryModule {
         return NewsRepositoryImpl(semanticConnection)
     }
 
-
-
     @Singleton
     @Provides
     fun provideDataStorageRepository(dataStorage: DataStorage) : StorageRepository {
         return StorageRepositoryImpl(dataStorage)
     }
-
-
-
-
 }

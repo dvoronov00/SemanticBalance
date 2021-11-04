@@ -10,17 +10,13 @@ import javax.inject.Inject
 class StorageRepositoryImpl @Inject constructor(
     private val dataStorage: DataStorage
 )  : StorageRepository {
-    override fun getUser(): Observable<User> {
-        return dataStorage.getUser()
-    }
+    override fun getUser(): Observable<User> = dataStorage.getUser()
 
     override fun saveUser(user: User) {
         dataStorage.saveUser(user)
     }
 
-    override fun getAccount(): Observable<Account> {
-        return dataStorage.getAccount()
-    }
+    override fun getAccount(): Observable<Account> = dataStorage.getAccount()
 
     override fun saveAccount(account: Account) {
         dataStorage.saveAccount(account)
@@ -29,5 +25,4 @@ class StorageRepositoryImpl @Inject constructor(
     override fun clearData() {
         dataStorage.clearData()
     }
-
 }

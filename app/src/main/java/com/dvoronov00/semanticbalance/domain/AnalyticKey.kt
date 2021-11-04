@@ -10,7 +10,6 @@ object AnalyticKey {
     object Account {
         const val SCREEN_NAME = "Аккаунт"
         const val NEWS_NAME = "Новости"
-
     }
 
     object UserProfile {
@@ -21,15 +20,6 @@ object AnalyticKey {
         const val SUBSCRIPTION_FEE = "Абонентская плата"
         const val UPDATE_DATE = "Дата обновления"
     }
-
-    /*
-                    analytics.setUserId(account.id.toString().trim())
-                analytics.setUserProperty("user_balance", account.balance?.trim())
-                analytics.setUserProperty("user_existing_days", calculatedDays.toString().trim())
-                analytics.setUserProperty("user_tariff", account.tariffName?.trim())
-
-
-     */
 
     object Reports {
         const val SCREEN_NAME = "Отчёты"

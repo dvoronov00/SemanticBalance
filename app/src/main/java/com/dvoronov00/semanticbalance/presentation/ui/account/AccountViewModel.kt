@@ -51,7 +51,6 @@ class AccountViewModel @Inject constructor(
     }
 
     fun onFragmentStart() {
-
         trackScreenShownInteractor.track(AnalyticKey.Account.SCREEN_NAME)
     }
 

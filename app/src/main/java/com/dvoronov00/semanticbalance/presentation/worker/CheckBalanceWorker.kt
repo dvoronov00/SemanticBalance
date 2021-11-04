@@ -11,7 +11,6 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.work.WorkerParameters
 import androidx.work.rxjava3.RxWorker
 import com.dvoronov00.semanticbalance.R
-import com.dvoronov00.semanticbalance.data.extension.calculateExistingDays
 import com.dvoronov00.semanticbalance.domain.usecase.GetAccountDataUseCase
 import com.dvoronov00.semanticbalance.presentation.App
 import io.reactivex.rxjava3.core.Single

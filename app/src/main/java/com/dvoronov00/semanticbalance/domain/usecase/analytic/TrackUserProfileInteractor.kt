@@ -1,6 +1,5 @@
 package com.dvoronov00.semanticbalance.domain.usecase.analytic
 
-import com.dvoronov00.semanticbalance.data.extension.calculateExistingDays
 import com.dvoronov00.semanticbalance.data.extension.toFormattedDate
 import com.dvoronov00.semanticbalance.domain.AnalyticKey
 import com.dvoronov00.semanticbalance.domain.model.Account

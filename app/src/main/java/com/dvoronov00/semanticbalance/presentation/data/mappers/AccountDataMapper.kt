@@ -1,7 +1,6 @@
 package com.dvoronov00.semanticbalance.presentation.data.mappers
 
 import com.dvoronov00.semanticbalance.R
-import com.dvoronov00.semanticbalance.data.extension.calculateExistingDays
 import com.dvoronov00.semanticbalance.domain.ResourceManager
 import com.dvoronov00.semanticbalance.domain.model.Account
 import com.dvoronov00.semanticbalance.presentation.ui.account.model.AccountData

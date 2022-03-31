@@ -13,13 +13,10 @@ class AccountParserImpl(html: String) : AccountParser {
         return doc
             .select("div.middle")
             .select("div#content")
-            .select("table.table")
+            .select("span.label-primary")
             .first()
-            .select("tr")
-            .first()
-            .select("td")
-            .last()
             .text()
+            .replace("Лицевой счет ", "")
             .toInt()
     }
 
@@ -27,7 +24,7 @@ class AccountParserImpl(html: String) : AccountParser {
         return doc
             .select("div.middle")
             .select("div#content")
-            .select("table.table")[2]
+            .select("table.table")[1]
             .select("tr")
             .first()
             .select("td")
@@ -62,7 +59,7 @@ class AccountParserImpl(html: String) : AccountParser {
         return doc
             .select("div.middle")
             .select("div#content")
-            .select("table.table")[2]
+            .select("table.table")[1]
             .select("tr")[1]
             .select("td")
             .last()
